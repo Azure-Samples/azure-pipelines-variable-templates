@@ -1,0 +1,15 @@
+steps:
+- task: ArchiveFiles@2
+  displayName: 'Build Deployment Package'
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)/web-app'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
+    replaceExistingArchive: true
+    verbose: # (no value); this input is optional
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: drop

@@ -1,0 +1,4 @@
+variables:
+  environmentName: 'dev'
+  webAppName: '$(WebApp)-$(environmentName)'
+  azureServiceConnection: 'kt-var-temp-sp'

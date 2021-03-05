@@ -1,0 +1,43 @@
+trigger:
+- master
+
+parameters:
+- name: environments
+  type: object
+  default: ['dev','qa', 'prd']
+
+variables:
+- template: vars/vars-global.yaml
+
+stages:
+- stage: build
+  jobs:
+    - job: build
+      steps:
+        - template: steps-build.yaml
+- ${{ each env in parameters.environments }}:
+  - stage: deploy_${{ env }}
+    variables:          
+      - template: vars/vars-${{ env }}.yaml
+    jobs:
+    - deployment: DeploymentJob
+      pool:
+        vmImage: ${{ variables.vmImageName }}
+      environment: ${{ variables.environmentName }}
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: steps-deployment.yaml
+                parameters:
+                  azureServiceConnection: ${{ variables.azureServiceConnection  }}
+                  webAppName: ${{ variables.webAppName }}
+                  resourceGroup: ${{ variables.resourceGroup}}
+                  location: ${{ variables.location }}
+  - stage: test_${{ env }}
+    jobs:
+      - job: run_integration_test
+        variables:          
+        - template: vars/vars-${{ env }}.yaml
+        steps:
+          - template: steps-integration-tests.yaml

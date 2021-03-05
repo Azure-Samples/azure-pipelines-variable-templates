@@ -1,0 +1,6 @@
+variables:
+  pythonVersion: '3.8'
+  vmImageName: 'ubuntu-latest'
+  resourceGroup: 'kt-k6-load-test-with-rg'
+  location: 'westus'
+  WebApp: 'kt-nestedyamltemplates'
