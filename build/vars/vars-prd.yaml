@@ -1,4 +1,4 @@
 variables:
   environmentName: 'prod'
   webAppName: '$(WebApp)-$(environmentName)'
-  azureServiceConnection: 'kt-var-temp-sp'
+  azureServiceConnection: 'remote-access-sc'
