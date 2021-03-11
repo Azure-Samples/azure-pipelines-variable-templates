@@ -1,4 +1,4 @@
 variables:
-  environmentName: 'test'
+  environmentName: 'qa'
   webAppName: '$(WebApp)-$(environmentName)'
   azureServiceConnection: 'remote-access-sc'
