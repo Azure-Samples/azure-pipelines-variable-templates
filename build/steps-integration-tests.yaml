@@ -1,37 +1,36 @@
-
 steps:
-- task: UsePythonVersion@0
-  displayName: 'Use Python $(pythonVersion)'
-  inputs:
-    versionSpec: $(pythonVersion)
-  
-- bash: |
-    echo ----- setup: installing dependencies --------
-    echo $(System.DefaultWorkingDirectory)/web-app
-    cd web-app
-    python --version
-    pip --version
-    pip install virtualenv
-    virtualenv venv38
-    source venv38/bin/activate
-    pip install -r requirements_dev.txt
+  - task: UsePythonVersion@0
+    displayName: "Use Python $(pythonVersion)"
+    inputs:
+      versionSpec: $(pythonVersion)
 
-    echo ----- run tests --------
-    python -m pytest --junit-xml=integration_tests_report.xml --cov=tests --cov-report=html --cov-report=xml ./tests --url "https://$(webAppName).azurewebsites.net"
+  - bash: |
+      echo ----- setup: installing dependencies --------
+      echo $(System.DefaultWorkingDirectory)/web-app
+      cd web-app
+      python --version
+      pip --version
+      pip install virtualenv
+      virtualenv venv38
+      source venv38/bin/activate
+      pip install -r requirements_dev.txt
 
-    echo ----- teardown --------
-    deactivate
-  displayName: 'Run Tests'
+      echo ----- run tests --------
+      python -m pytest --junit-xml=integration_tests_report.xml --cov=tests --cov-report=html --cov-report=xml ./tests --url "https://$(webAppName).azurewebsites.net"
 
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish Code Coverage Results'
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+      echo ----- teardown --------
+      deactivate
+    displayName: "Run Tests"
 
-- task: PublishTestResults@2
-  displayName: 'Publish Test Results'
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/*_tests_report.xml'
-    failTaskOnFailedTests: true
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish Code Coverage Results"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.xml"
+
+  - task: PublishTestResults@2
+    displayName: "Publish Test Results"
+    inputs:
+      testResultsFormat: "JUnit"
+      testResultsFiles: "**/*_tests_report.xml"
+      failTaskOnFailedTests: true

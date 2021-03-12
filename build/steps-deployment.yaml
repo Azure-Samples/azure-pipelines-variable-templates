@@ -9,28 +9,28 @@ parameters:
     type: string
 
 steps:
-- task: DownloadBuildArtifacts@0
-  inputs:
-    buildType: 'current'
-    artifactName: 'drop'
-    downloadPath: '$(Build.SourcesDirectory)'
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      buildType: "current"
+      artifactName: "drop"
+      downloadPath: "$(Build.SourcesDirectory)"
 
-- task: ExtractFiles@1
-  inputs:
-    archiveFilePatterns: '**/*.zip' 
-    destinationFolder: $(System.ArtifactsDirectory)/drop
-    cleanDestinationFolder: true 
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: "**/*.zip"
+      destinationFolder: $(System.ArtifactsDirectory)/drop
+      cleanDestinationFolder: true
 
-- task: AzureCLI@2
-  displayName: 'Create ${{ parameters.webAppName }} Web App'
-  inputs:
-    azureSubscription: '${{ parameters.azureServiceConnection }}'
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      export APP_NAME=${{ parameters.webAppName }}
-      export LOCATION=${{ parameters.location }}
-      export RESOURCE_GROUP=${{ parameters.resourceGroup }}
-      cd $(System.ArtifactsDirectory)/drop
-      az webapp up --sku B1 --name $APP_NAME --location $LOCATION --resource-group $RESOURCE_GROUP
-      az webapp config set --resource-group $RESOURCE_GROUP --name $APP_NAME --startup-file "gunicorn --bind=0.0.0.0 --timeout 600 --workers=4 --chdir src app:app"
+  - task: AzureCLI@2
+    displayName: "Create ${{ parameters.webAppName }} Web App"
+    inputs:
+      azureSubscription: "${{ parameters.azureServiceConnection }}"
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        export APP_NAME=${{ parameters.webAppName }}
+        export LOCATION=${{ parameters.location }}
+        export RESOURCE_GROUP=${{ parameters.resourceGroup }}
+        cd $(System.ArtifactsDirectory)/drop
+        az webapp up --sku B1 --name $APP_NAME --location $LOCATION --resource-group $RESOURCE_GROUP
+        az webapp config set --resource-group $RESOURCE_GROUP --name $APP_NAME --startup-file "gunicorn --bind=0.0.0.0 --timeout 600 --workers=4 --chdir src app:app"

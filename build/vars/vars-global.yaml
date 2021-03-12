@@ -1,6 +1,6 @@
 variables:
-  pythonVersion: '3.8'
-  vmImageName: 'ubuntu-latest'
-  resourceGroup: 'td-az-resource-group'
-  location: 'westus'
-  WebApp: 'td-nestedyamltemplates'
+  pythonVersion: "3.8"
+  vmImageName: "ubuntu-latest"
+  resourceGroup: "td-az-resource-group"
+  location: "westus"
+  WebApp: "td-nestedyamltemplates"
