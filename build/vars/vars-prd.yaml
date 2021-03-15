@@ -1,4 +1,4 @@
 variables:
-  environmentName: 'prd'
-  webAppName: '$(WebApp)-$(environmentName)'
-  azureServiceConnection: 'remote-access-sc'
+  environmentName: "prd"
+  webAppName: "$(WebApp)-$(environmentName)"
+  azureServiceConnection: "remote-access-sc"
