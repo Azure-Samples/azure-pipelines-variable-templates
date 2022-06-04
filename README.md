@@ -6,7 +6,7 @@ languages:
 products:
   - azure
   - azure-app-service
-name: Manage variables with template files in Azure pipeline using Python and Flask
+name: Manage variables with template files in Azure Pipelines using Python and Flask
 description: "Sample Python Web app that demonstrates the use of variable template files in Azure Pipelines."
 urlFragment: "azure-pipelines-variable-templates"
 ---
